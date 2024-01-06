@@ -1,12 +1,14 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 func main() {
-	var i int
-	var f float64
-	var b bool
-	var s string
+	x, y := 3, 4
+	f := math.Sqrt(float64(x*x + y*y))
+	z := uint(f)
 
-	fmt.Printf("%v, %v, %v, %q \n", i, f, b, s)
+	fmt.Println(x, y, z)
 }
