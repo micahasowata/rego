@@ -3,10 +3,10 @@ package main
 import "fmt"
 
 func main() {
-	sum := 0
+	sum := 1
 
 	for sum < 10 {
-		sum += 1
+		sum += sum
 	}
 
 	fmt.Println(sum)
