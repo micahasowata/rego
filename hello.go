@@ -11,5 +11,7 @@ type Vertex struct {
 
 func main() {
 	v := Vertex{5, 7}
-	fmt.Println(v.X, v.Y)
+	p := &v
+	p.X = 45
+	fmt.Println(v)
 }
