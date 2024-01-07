@@ -5,13 +5,17 @@ import (
 )
 
 func Sqrt(x float64) float64 {
-	z := 0.0
-	for z < x {
-		z -= (z*z - x) / (2 * z)
-	}
+	z := 2.55
+	z -= (z*z - x) / (2 * z)
+
 	return z
 }
 
 func main() {
-	fmt.Println(Sqrt(4))
+	i := 0.0
+
+	for i < 10.0 {
+		fmt.Printf("Square root of %.2f is => %.2f", i, Sqrt(i))
+		i += 1.0
+	}
 }
