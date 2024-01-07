@@ -5,10 +5,13 @@ import (
 )
 
 func main() {
-	fmt.Println("counting")
-	defer fmt.Println("done")
+	i, j := 42, 2701
 
-	for i := 0; i < 10; i++ {
-		defer fmt.Println(i)
-	}
+	p := &i
+
+	fmt.Println(*p)
+
+	*p = (j - 1) / 15
+
+	fmt.Println(*p)
 }
