@@ -2,20 +2,18 @@ package main
 
 import (
 	"fmt"
+	"runtime"
 )
 
-func Sqrt(x float64) float64 {
-	z := 2.55
-	z -= (z*z - x) / (2 * z)
-
-	return z
-}
-
 func main() {
-	i := 0.0
+	fmt.Print("Go is running on: ")
+	switch os := runtime.GOOS; os {
+	case "linux":
+		fmt.Println("Linux")
+	case "darwin":
+		fmt.Println("OS X")
+	default:
+		fmt.Println(os)
 
-	for i < 10.0 {
-		fmt.Printf("Square root of %.2f is => %.2f", i, Sqrt(i))
-		i += 1.0
 	}
 }
