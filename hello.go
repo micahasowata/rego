@@ -6,5 +6,7 @@ func main() {
 	var names []string
 	names = append(names, "Adam", "Job", "Queen")
 
-	fmt.Println(names)
+	for i, name := range names {
+		fmt.Printf("%d => %v\n", i, name)
+	}
 }
