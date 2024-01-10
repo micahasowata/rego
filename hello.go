@@ -1,11 +1,24 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 func main() {
-	a := make([]int, 5)
-	fmt.Println(a, len(a), cap(a))
+	board := [][]string{
+		{"_", "_", "_"},
+		{"_", "_", "_"},
+		{"_", "_", "_"},
+	}
 
-	b := make([]int, 0, 5)
-	fmt.Println(b, len(b), cap(b))
+	board[0][0] = "X"
+	board[2][2] = "0"
+	board[1][2] = "X"
+	board[1][0] = "0"
+	board[0][0] = "X"
+
+	for i := 0; i < len(board); i++ {
+		fmt.Printf("%s\n", strings.Join(board[i], " "))
+	}
 }
