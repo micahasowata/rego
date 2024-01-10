@@ -2,11 +2,18 @@ package main
 
 import "fmt"
 
-func main() {
-	var names []string
-	names = append(names, "Adam", "Job", "Queen")
+type Vertex struct {
+	Lat, Long float64
+}
 
-	for _, name := range names {
-		fmt.Println(name)
+var m map[string]Vertex
+
+func main() {
+	m := make(map[string]Vertex)
+
+	m["Bell Labs"] = Vertex{
+		40.68433, -74.39967,
 	}
+
+	fmt.Println(m["Bell Labs"])
 }
