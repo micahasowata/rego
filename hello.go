@@ -1,17 +1,18 @@
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
 type Vertex struct {
-	X int
-	Y int
+	X, Y int
 }
 
+var (
+	vOne   = Vertex{1, 2}
+	vTwo   = Vertex{X: 1}
+	vThree = Vertex{}
+	p      = &Vertex{1, 2}
+)
+
 func main() {
-	v := Vertex{5, 7}
-	p := &v
-	p.X = 45
-	fmt.Println(v)
+	fmt.Println(vOne, p, vTwo, vThree)
 }
