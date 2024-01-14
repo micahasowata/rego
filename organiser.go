@@ -1,5 +1,11 @@
 package main
 
+import (
+	"fmt"
+	"log"
+	"os"
+)
+
 type Organiser struct {
 	Path      string
 	UseGlobal bool
@@ -15,6 +21,14 @@ func NewOrganiser(path string) *Organiser {
 // Run is the main worker function for organiser
 func (o *Organiser) Run() {
 	// Confirm if the path is a valid directory
+	info, err := os.Stat(o.Path)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if info.IsDir() {
+		fmt.Println("Hey it's a directory")
+	}
 	// Check the read/write permissions on each file in the directory
 	// Check the file extensions
 	// Based on UseGlobal move files to either root based paths or create directories in the CWD
