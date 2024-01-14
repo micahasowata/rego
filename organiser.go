@@ -5,6 +5,8 @@ import (
 	"log"
 	"os"
 	"strings"
+
+	"github.com/mitchellh/go-homedir"
 )
 
 type Organiser struct {
@@ -18,12 +20,22 @@ func NewOrganiser(path string) *Organiser {
 		path = "/" + path + "/"
 	}
 
+	p, err := os.Getwd()
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
 	if path == "." {
-		p, err := os.Getwd()
-		if err != nil {
-			log.Fatal(err.Error())
-		}
 		path = p
+	}
+
+	hd, err := homedir.Dir()
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+	if !strings.HasPrefix(path, hd) {
+		path = hd + path
+		fmt.Println(path)
 	}
 
 	return &Organiser{
