@@ -42,7 +42,7 @@ func (o *Organiser) Run() {
 	if info.IsDir() {
 		fmt.Println("Hey it's a directory")
 	}
-	// Check the read/write permissions on each file in the directory
+
 	// Check the file extensions
 	// Based on UseGlobal move files to either root based paths or create directories in the CWD
 	// ("jpg, jpeg, png" -> "Images", ".txt, .pdf" -> "Documents")
