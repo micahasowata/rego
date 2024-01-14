@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 )
 
 type Organiser struct {
@@ -21,6 +22,11 @@ func NewOrganiser(path string) *Organiser {
 // Run is the main worker function for organiser
 func (o *Organiser) Run() {
 	// Confirm if the path is a valid directory
+
+	if !(strings.HasPrefix(o.Path, "/") && strings.HasSuffix(o.Path, "/")) {
+		o.Path = "/" + o.Path + "/"
+	}
+
 	info, err := os.Stat(o.Path)
 	if err != nil {
 		log.Fatal(err)
