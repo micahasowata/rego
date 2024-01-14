@@ -14,6 +14,18 @@ type Organiser struct {
 
 // NewOrganiser is the constructor function for the organiser struct
 func NewOrganiser(path string) *Organiser {
+	if !(strings.HasPrefix(path, "/") && strings.HasSuffix(path, "/")) {
+		path = "/" + path + "/"
+	}
+
+	if path == "." {
+		p, err := os.Getwd()
+		if err != nil {
+			log.Fatal(err.Error())
+		}
+		path = p
+	}
+
 	return &Organiser{
 		Path: path,
 	}
@@ -22,11 +34,6 @@ func NewOrganiser(path string) *Organiser {
 // Run is the main worker function for organiser
 func (o *Organiser) Run() {
 	// Confirm if the path is a valid directory
-
-	if !(strings.HasPrefix(o.Path, "/") && strings.HasSuffix(o.Path, "/")) {
-		o.Path = "/" + o.Path + "/"
-	}
-
 	info, err := os.Stat(o.Path)
 	if err != nil {
 		log.Fatal(err)

@@ -1,6 +1,9 @@
 package main
 
+import "fmt"
+
 func main() {
-	o := NewOrganiser("home/micah/Documents/test")
+	o := NewOrganiser(".")
+	fmt.Println(o.Path)
 	o.Run()
 }
