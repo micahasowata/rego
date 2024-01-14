@@ -10,3 +10,7 @@ func NewOrganiser(path string) *Organiser {
 		Path: path,
 	}
 }
+
+// Run is the main worker function for organiser
+func (o *Organiser) Run() {
+}
