@@ -16,26 +16,27 @@ type Organiser struct {
 
 // NewOrganiser is the constructor function for the organiser struct
 func NewOrganiser(path string) *Organiser {
-	if !(strings.HasPrefix(path, "/") && strings.HasSuffix(path, "/")) {
-		path = "/" + path + "/"
-	}
-
-	p, err := os.Getwd()
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-
 	if path == "." {
+		p, err := os.Getwd()
+		if err != nil {
+			log.Fatal(err.Error())
+		}
 		path = p
+	} else {
+		path = strings.TrimPrefix(path, "/")
+
+		hd, err := homedir.Dir()
+		if err != nil {
+			log.Fatal(err.Error())
+		}
+
+		if !strings.HasPrefix(path, hd) {
+			path = hd + path
+		}
 	}
 
-	hd, err := homedir.Dir()
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-	if !strings.HasPrefix(path, hd) {
-		path = hd + path
-		fmt.Println(path)
+	if !strings.HasSuffix(path, "/") {
+		path = fmt.Sprintf("%s/", path)
 	}
 
 	return &Organiser{
