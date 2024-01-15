@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"log"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/mitchellh/go-homedir"
@@ -36,14 +38,48 @@ func NewOrganiser(path string, useGlobal bool) *Organiser {
 		}
 	}
 
-	if !strings.HasSuffix(path, "/") {
-		path = fmt.Sprintf("%s/", path)
-	}
-
 	return &Organiser{
 		Path:      path,
 		UseGlobal: useGlobal,
 	}
+}
+
+func moveFile(source, destination string) (err error) {
+	src, err := os.Open(source)
+	if err != nil {
+		return err
+	}
+	defer src.Close()
+	fi, err := src.Stat()
+	if err != nil {
+		return err
+	}
+	flag := os.O_WRONLY | os.O_CREATE | os.O_TRUNC
+	perm := fi.Mode() & os.ModePerm
+	dst, err := os.OpenFile(destination, flag, perm)
+	if err != nil {
+		return err
+	}
+	defer dst.Close()
+	_, err = io.Copy(dst, src)
+	if err != nil {
+		dst.Close()
+		os.Remove(destination)
+		return err
+	}
+	err = dst.Close()
+	if err != nil {
+		return err
+	}
+	err = src.Close()
+	if err != nil {
+		return err
+	}
+	err = os.Remove(source)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 // Run is the main worker function for organiser
@@ -62,10 +98,15 @@ func (o *Organiser) Run() {
 
 		for _, file := range files {
 			if !file.IsDir() && !o.UseGlobal {
-				fc, err := ft.GetFileCategory()
+				fmt.Println(file.Name())
+				fileCategory, err := ft.GetFileCategory(filepath.Ext(file.Name()))
 				if err != nil {
 					log.Fatal(err)
 				}
+
+				sourcePath := filepath.Join(o.Path, file.Name())
+				destPath := filepath.Join(o.Path, fileCategory, file.Name())
+				moveFile(sourcePath, destPath)
 			}
 		}
 
