@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"path/filepath"
 	"strings"
 
 	"github.com/mitchellh/go-homedir"
@@ -63,12 +62,9 @@ func (o *Organiser) Run() {
 
 		for _, file := range files {
 			if !file.IsDir() && !o.UseGlobal {
-				c := ft.GetCategory(filepath.Ext(file.Name()))
-
-				if c == "Not Found" {
-					fmt.Println(filepath.Ext(file.Name()))
-				} else {
-					fmt.Println(c)
+				fc, err := ft.GetFileCategory()
+				if err != nil {
+					log.Fatal(err)
 				}
 			}
 		}
