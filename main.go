@@ -1,6 +1,8 @@
 package main
 
+import "github.com/spobly/rego/organiser"
+
 func main() {
-	o := NewOrganiser("Documents/test", true)
+	o := organiser.New("Documents/test", true)
 	o.Run()
 }

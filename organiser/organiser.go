@@ -1,4 +1,4 @@
-package main
+package organiser
 
 import (
 	"fmt"
@@ -17,8 +17,8 @@ type Organiser struct {
 	UseGlobal bool
 }
 
-// NewOrganiser is the constructor function for the organiser struct
-func NewOrganiser(path string, useGlobal bool) *Organiser {
+// New is the constructor function for the organiser struct
+func New(path string, useGlobal bool) *Organiser {
 	if path == "." {
 		p, err := os.Getwd()
 		if err != nil {
