@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/mitchellh/go-homedir"
-	"github.com/spobly/ft"
+	"github.com/spobly/rego/ft"
 )
 
 type Organiser struct {
@@ -102,8 +102,4 @@ func (o *Organiser) Run() {
 		}
 
 	}
-
-	// Based on UseGlobal move files to either root based paths or create directories in the CWD
-	// ("jpg, jpeg, png" -> "Images", ".txt, .pdf" -> "Documents")
-
 }
