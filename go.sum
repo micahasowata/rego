@@ -1,2 +1,6 @@
 github.com/mitchellh/go-homedir v1.1.0 h1:lukF9ziXFxDFPkA1vsr5zpc1XuPDn/wFntq5mG+4E0Y=
 github.com/mitchellh/go-homedir v1.1.0/go.mod h1:SfyaCUpYCn1Vlf4IUYiD9fPX4A5wJrkLzIz1N1q0pr0=
+github.com/spobly/ft v1.0.0 h1:ibDU9zVSMf5mwWrMpvbzkdIprgpnP+fH3MO8BokKMbE=
+github.com/spobly/ft v1.0.0/go.mod h1:E9UEHr31rDNeIsW5s9Ty+sU0rNrMqBS8Zkol6rGP2Jg=
+github.com/spobly/ft v1.0.1 h1:WUZs8Vxx1hIPfdEzs6kfYG4DjmOzFGtE5p0yxBiYnyk=
+github.com/spobly/ft v1.0.1/go.mod h1:E9UEHr31rDNeIsW5s9Ty+sU0rNrMqBS8Zkol6rGP2Jg=

@@ -4,9 +4,11 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/mitchellh/go-homedir"
+	"github.com/spobly/ft"
 )
 
 type Organiser struct {
@@ -47,7 +49,6 @@ func NewOrganiser(path string, useGlobal bool) *Organiser {
 
 // Run is the main worker function for organiser
 func (o *Organiser) Run() {
-	// Confirm if the path is a valid directory
 	info, err := os.Stat(o.Path)
 	if err != nil {
 		log.Fatal(err)
@@ -60,17 +61,15 @@ func (o *Organiser) Run() {
 			log.Fatal(err)
 		}
 
-		fileExtensions := map[string][]string{
-			"Audio":       {".mp3", ".wav", ".aac", ".flac", ".m4a"},
-			"Video":       {".mp4", ".avi", ".mkv", ".mov", ".wmv"},
-			"Images":      {".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff", ".tif"},
-			"Documents":   {".pdf", ".docx", ".xlsx", ".pptx", ".txt"},
-			"Archives":    {".zip", ".rar", ".7z", ".tar", ".gz"},
-			"Executables": {".exe", ".app", ".dmg", ".bin", ".msi"}}
-
 		for _, file := range files {
 			if !file.IsDir() && !o.UseGlobal {
+				c := ft.GetCategory(filepath.Ext(file.Name()))
 
+				if c == "Not Found" {
+					fmt.Println(filepath.Ext(file.Name()))
+				} else {
+					fmt.Println(c)
+				}
 			}
 		}
 
