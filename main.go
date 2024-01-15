@@ -1,6 +1,6 @@
 package main
 
 func main() {
-	o := NewOrganiser(".")
+	o := NewOrganiser("Documents/test")
 	o.Run()
 }

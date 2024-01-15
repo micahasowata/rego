@@ -31,7 +31,7 @@ func NewOrganiser(path string) *Organiser {
 		}
 
 		if !strings.HasPrefix(path, hd) {
-			path = hd + path
+			path = fmt.Sprintf("%s/%s", hd, path)
 		}
 	}
 
@@ -53,10 +53,16 @@ func (o *Organiser) Run() {
 	}
 
 	if info.IsDir() {
-		fmt.Println("Hey it's a directory")
-	}
+		// Check the file extensions
+		files, err := os.ReadDir(o.Path)
+		if err != nil {
+			log.Fatal(err)
+		}
 
-	// Check the file extensions
-	// Based on UseGlobal move files to either root based paths or create directories in the CWD
-	// ("jpg, jpeg, png" -> "Images", ".txt, .pdf" -> "Documents")
+		for _, file := range files {
+			fmt.Println(file.Name())
+		}
+		// Based on UseGlobal move files to either root based paths or create directories in the CWD
+		// ("jpg, jpeg, png" -> "Images", ".txt, .pdf" -> "Documents")
+	}
 }
