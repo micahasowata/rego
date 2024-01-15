@@ -1,7 +1,6 @@
 package organiser
 
 import (
-	"fmt"
 	"io/fs"
 	"log"
 	"os"
@@ -34,7 +33,7 @@ func New(path string, useGlobal bool) *Organiser {
 		}
 
 		if !strings.HasPrefix(path, hd) {
-			path = fmt.Sprintf("%s/%s", hd, path)
+			path = filepath.Join(hd, path)
 		}
 	}
 
