@@ -2,43 +2,31 @@ package main
 
 import (
 	"io"
+	"log"
 	"os"
 )
 
-func moveFile(source, destination string) (err error) {
-	src, err := os.Open(source)
+func moveFile(sourcePath, destPath string) error {
+	inputFile, err := os.Open(sourcePath)
 	if err != nil {
-		return err
+		log.Fatal(err)
 	}
-	defer src.Close()
-	fi, err := src.Stat()
+	defer inputFile.Close()
+
+	outputFile, err := os.Create(destPath)
 	if err != nil {
-		return err
+		log.Fatal(err)
 	}
-	flag := os.O_WRONLY | os.O_CREATE | os.O_TRUNC
-	perm := fi.Mode() & os.ModePerm
-	dst, err := os.OpenFile(destination, flag, perm)
+	defer outputFile.Close()
+
+	_, err = io.Copy(outputFile, inputFile)
 	if err != nil {
-		return err
+		log.Fatal(err)
 	}
-	defer dst.Close()
-	_, err = io.Copy(dst, src)
+
+	err = os.Remove(sourcePath)
 	if err != nil {
-		dst.Close()
-		os.Remove(destination)
-		return err
-	}
-	err = dst.Close()
-	if err != nil {
-		return err
-	}
-	err = src.Close()
-	if err != nil {
-		return err
-	}
-	err = os.Remove(source)
-	if err != nil {
-		return err
+		log.Fatal(err)
 	}
 	return nil
 }

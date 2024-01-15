@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io/fs"
 	"log"
 	"os"
 	"path/filepath"
@@ -58,15 +59,45 @@ func (o *Organiser) Run() {
 		}
 
 		for _, file := range files {
-			if !file.IsDir() && !o.UseGlobal {
-				fmt.Println(file.Name())
+			if !file.IsDir() {
 				fileCategory, err := ft.GetFileCategory(filepath.Ext(file.Name()))
 				if err != nil {
 					log.Fatal(err)
 				}
 
-				sourcePath := filepath.Join(o.Path, file.Name())
-				destPath := filepath.Join(o.Path, fileCategory, file.Name())
+				sourcePath := ""
+				destPath := ""
+
+				if !o.UseGlobal {
+					sourcePath = filepath.Join(o.Path, file.Name())
+					destPath = filepath.Join(o.Path, fileCategory, file.Name())
+					_, err = os.Stat(filepath.Join(o.Path, fileCategory))
+					if err != nil {
+						if os.IsNotExist(err) {
+							err = os.Mkdir(filepath.Join(o.Path, fileCategory), fs.ModePerm)
+							if err != nil {
+								log.Fatal(err)
+							}
+						}
+					}
+				} else {
+					hd, err := homedir.Dir()
+					if err != nil {
+						log.Fatal(err)
+					}
+					sourcePath = filepath.Join(o.Path, file.Name())
+					destPath = filepath.Join(hd, fileCategory, file.Name())
+					_, err = os.Stat(filepath.Join(hd, fileCategory))
+					if err != nil {
+						if os.IsNotExist(err) {
+							err = os.Mkdir(filepath.Join(hd, fileCategory), fs.ModePerm)
+							if err != nil {
+								log.Fatal(err)
+							}
+						}
+					}
+				}
+
 				moveFile(sourcePath, destPath)
 			}
 		}
