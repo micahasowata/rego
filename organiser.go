@@ -15,7 +15,7 @@ type Organiser struct {
 }
 
 // NewOrganiser is the constructor function for the organiser struct
-func NewOrganiser(path string) *Organiser {
+func NewOrganiser(path string, useGlobal bool) *Organiser {
 	if path == "." {
 		p, err := os.Getwd()
 		if err != nil {
@@ -40,7 +40,8 @@ func NewOrganiser(path string) *Organiser {
 	}
 
 	return &Organiser{
-		Path: path,
+		Path:      path,
+		UseGlobal: useGlobal,
 	}
 }
 
