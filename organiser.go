@@ -60,10 +60,23 @@ func (o *Organiser) Run() {
 			log.Fatal(err)
 		}
 
+		fileExtensions := map[string][]string{
+			"Audio":       {".mp3", ".wav", ".aac", ".flac", ".m4a"},
+			"Video":       {".mp4", ".avi", ".mkv", ".mov", ".wmv"},
+			"Images":      {".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff", ".tif"},
+			"Documents":   {".pdf", ".docx", ".xlsx", ".pptx", ".txt"},
+			"Archives":    {".zip", ".rar", ".7z", ".tar", ".gz"},
+			"Executables": {".exe", ".app", ".dmg", ".bin", ".msi"}}
+
 		for _, file := range files {
-			fmt.Println(file.Name())
+			if !file.IsDir() && !o.UseGlobal {
+
+			}
 		}
-		// Based on UseGlobal move files to either root based paths or create directories in the CWD
-		// ("jpg, jpeg, png" -> "Images", ".txt, .pdf" -> "Documents")
+
 	}
+
+	// Based on UseGlobal move files to either root based paths or create directories in the CWD
+	// ("jpg, jpeg, png" -> "Images", ".txt, .pdf" -> "Documents")
+
 }
