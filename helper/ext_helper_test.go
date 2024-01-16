@@ -37,5 +37,4 @@ func TestMissingExtension(t *testing.T) {
 	require.Error(t, err)
 	require.Contains(t, err.Error(), want)
 	assert.Empty(t, got)
-
 }
