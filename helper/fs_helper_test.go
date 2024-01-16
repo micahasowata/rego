@@ -69,3 +69,12 @@ func TestMissingSourceFile(t *testing.T) {
 	require.Error(t, err)
 	require.Contains(t, err.Error(), "no such file or directory")
 }
+
+func TestMissingDestDirectory(t *testing.T) {
+	setUp("source", "stat")
+	defer tearDown("source", "stat")
+
+	err := helper.MoveFile(filepath.Join("source", "sample.txt"), filepath.Join("stst", "sample.txt"))
+	require.Error(t, err)
+	require.Contains(t, err.Error(), "no such file or directory")
+}
