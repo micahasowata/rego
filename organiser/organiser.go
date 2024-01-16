@@ -124,8 +124,6 @@ func (o *Organiser) Run() error {
 								return e.Err
 							}
 						}
-						e, _ := err.(*os.PathError)
-						return e.Err
 					}
 
 					// Move files from the source path to the destination path

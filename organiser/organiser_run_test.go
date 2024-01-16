@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 	"testing"
 
+	"github.com/mitchellh/go-homedir"
 	"github.com/spobly/rego/organiser"
 	"github.com/stretchr/testify/require"
 )
@@ -58,6 +59,28 @@ func TestOrganiserRunWithLocalPermission(t *testing.T) {
 	require.DirExists(t, o.Path)
 
 	err = o.Run()
+	require.NoError(t, err)
+}
+
+func TestOrganiserRunWithGlobalPermission(t *testing.T) {
+	setUp("source", "stat")
+	defer tearDown("source", "stat")
+
+	o, err := organiser.New(".", true)
+	require.NoError(t, err)
+
+	hd, err := homedir.Dir()
+	require.NoError(t, err)
+
+	o.Path = filepath.Join(o.Path, "source")
+	require.DirExists(t, o.Path)
+
+	err = o.Run()
+	require.NoError(t, err)
+
+	require.DirExists(t, filepath.Join(hd, "Audio"))
+
+	err = os.RemoveAll(filepath.Join(hd, "Audio"))
 	require.NoError(t, err)
 }
 
