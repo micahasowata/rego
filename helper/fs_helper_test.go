@@ -63,3 +63,9 @@ func TestMoveFile(t *testing.T) {
 	require.NoFileExists(t, filepath.Join("source", "sample.txt"))
 	require.FileExists(t, filepath.Join("stat", "sample.txt"))
 }
+
+func TestMissingSourceFile(t *testing.T) {
+	err := helper.MoveFile(filepath.Join("source", "sample.txt"), filepath.Join("stat", "sample.txt"))
+	require.Error(t, err)
+	require.Contains(t, err.Error(), "no such file or directory")
+}
