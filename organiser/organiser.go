@@ -113,7 +113,7 @@ func (o *Organiser) Run() error {
 					// Construct the destination and stat paths
 					destPath, statPath := helper.CreatePaths(hd, fileCategory, file.Name())
 
-					// Verfiry the stat path
+					// Verify the stat path
 					_, err = os.Stat(statPath)
 					if err != nil {
 						if os.IsNotExist(err) {

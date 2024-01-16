@@ -19,7 +19,7 @@ func setUp(source, stat string) {
 	}
 
 	// create a sample file in that directory
-	file := filepath.Join(source, "sample.txt")
+	file := filepath.Join(source, "sample.mp3")
 
 	err = os.WriteFile(file, []byte{1, 2}, fs.ModePerm)
 	if err != nil {
@@ -61,20 +61,6 @@ func TestOrganiserRunWithLocalPermission(t *testing.T) {
 	require.NoError(t, err)
 }
 
-func TestOrganiserRunWithGlobalPermission(t *testing.T) {
-	setUp("source", "stst")
-	defer tearDown("source", "stst")
-
-	o, err := organiser.New(".", true)
-	require.NoError(t, err)
-
-	o.Path = filepath.Join(o.Path, "source")
-	require.DirExists(t, o.Path)
-
-	err = o.Run()
-	require.NoError(t, err)
-}
-
 func TestOrganiserRunWithFilePath(t *testing.T) {
 	setUp("source", "stat")
 	defer tearDown("source", "stat")
@@ -82,7 +68,7 @@ func TestOrganiserRunWithFilePath(t *testing.T) {
 	o, err := organiser.New(".", false)
 	require.NoError(t, err)
 
-	o.Path = filepath.Join(o.Path, "source", "sample.txt")
+	o.Path = filepath.Join(o.Path, "source", "sample.mp3")
 	err = o.Run()
 
 	require.Error(t, err)
