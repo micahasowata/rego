@@ -6,30 +6,38 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/spobly/rego/helper"
+	"github.com/stretchr/testify/require"
 )
 
 var (
-	source string
-	file   string
-	stat   string
+	source   = "source"
+	file     string
+	filename = "sample.txt"
+	stat     = "stat"
 )
 
 func setUp() {
 	// create a source directory
-	source, err := os.MkdirTemp("", "source")
+	err := os.Mkdir(source, fs.ModePerm)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	// create a sample file in that directory
-	file = filepath.Join(source, "sample.txt")
+	file = filepath.Join(source, filename)
+
 	err = os.WriteFile(file, []byte{1, 2}, fs.ModePerm)
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	// create a stat directory
-	stat, err = os.MkdirTemp("", "stat")
-	log.Fatal(err)
+	err = os.Mkdir("stat", fs.ModePerm)
+	if err != nil {
+		log.Fatal("stat", err)
+	}
 }
 
 func tearDown() {
@@ -47,9 +55,18 @@ func tearDown() {
 }
 
 func TestMoveFile(t *testing.T) {
+	// set up
 	setUp()
 	defer tearDown()
-	// arrange
+
 	// act
+	err := helper.MoveFile(file, filepath.Join(stat, filename))
+	require.NoError(t, err)
+
 	// assert
+	require.NoError(t, err)
+	require.DirExists(t, source)
+	require.DirExists(t, stat)
+	require.NoFileExists(t, file)
+	require.FileExists(t, filepath.Join(stat, filename))
 }
