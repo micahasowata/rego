@@ -11,14 +11,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-var (
-	source   = "source"
-	file     string
-	filename = "sample.txt"
-	stat     = "stat"
-)
-
-func setUp() {
+func setUp(source, stat string) {
 	// create a source directory
 	err := os.Mkdir(source, fs.ModePerm)
 	if err != nil {
@@ -26,7 +19,7 @@ func setUp() {
 	}
 
 	// create a sample file in that directory
-	file = filepath.Join(source, filename)
+	file := filepath.Join(source, "sample.txt")
 
 	err = os.WriteFile(file, []byte{1, 2}, fs.ModePerm)
 	if err != nil {
@@ -40,7 +33,7 @@ func setUp() {
 	}
 }
 
-func tearDown() {
+func tearDown(source, stat string) {
 	// delete source directory
 	err := os.RemoveAll(source)
 	if err != nil {
@@ -56,17 +49,17 @@ func tearDown() {
 
 func TestMoveFile(t *testing.T) {
 	// set up
-	setUp()
-	defer tearDown()
+	setUp("source", "stat")
+	defer tearDown("source", "stat")
 
 	// act
-	err := helper.MoveFile(file, filepath.Join(stat, filename))
+	err := helper.MoveFile(filepath.Join("source", "sample.txt"), filepath.Join("stat", "sample.txt"))
 	require.NoError(t, err)
 
 	// assert
 	require.NoError(t, err)
-	require.DirExists(t, source)
-	require.DirExists(t, stat)
-	require.NoFileExists(t, file)
-	require.FileExists(t, filepath.Join(stat, filename))
+	require.DirExists(t, "source")
+	require.DirExists(t, "stat")
+	require.NoFileExists(t, filepath.Join("source", "sample.txt"))
+	require.FileExists(t, filepath.Join("stat", "sample.txt"))
 }
