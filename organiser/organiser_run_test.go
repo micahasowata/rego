@@ -97,3 +97,14 @@ func TestOrganiserRunWithFilePath(t *testing.T) {
 	require.Error(t, err)
 	require.Contains(t, err.Error(), "not a directory")
 }
+
+func TestInvalidFilePath(t *testing.T) {
+	o, err := organiser.New(".", false)
+	require.NoError(t, err)
+
+	o.Path = filepath.Join(o.Path, "source")
+
+	err = o.Run()
+	require.Error(t, err)
+	require.Contains(t, err.Error(), "no such file or directory")
+}
