@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/mitchellh/go-homedir"
-	"github.com/spobly/rego/ft"
+	"github.com/spobly/rego/helper"
 )
 
 type Organiser struct {
@@ -59,7 +59,7 @@ func (o *Organiser) Run() {
 
 		for _, file := range files {
 			if !file.IsDir() {
-				fileCategory, err := ft.GetFileCategory(filepath.Ext(file.Name()))
+				fileCategory, err := helper.GetFileCategory(filepath.Ext(file.Name()))
 				if err != nil {
 					log.Fatal(err)
 				}
@@ -97,7 +97,7 @@ func (o *Organiser) Run() {
 					}
 				}
 
-				moveFile(sourcePath, destPath)
+				helper.MoveFile(sourcePath, destPath)
 			}
 		}
 

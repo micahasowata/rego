@@ -1,4 +1,4 @@
-package organiser
+package helper
 
 import (
 	"io"
@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func moveFile(sourcePath, destPath string) error {
+func MoveFile(sourcePath, destPath string) error {
 	inputFile, err := os.Open(sourcePath)
 	if err != nil {
 		log.Fatal(err)
