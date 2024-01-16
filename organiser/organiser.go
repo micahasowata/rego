@@ -10,12 +10,13 @@ import (
 	"github.com/spobly/rego/helper"
 )
 
+// Organiser stores information about the directory to be managed and user permissions
 type Organiser struct {
 	Path      string
 	UseGlobal bool
 }
 
-// New is the constructor function for the organiser struct
+// New returns a new Organiser with the provided path and permission or an error
 func New(path string, useGlobal bool) (*Organiser, error) {
 	if path == "." {
 		p, err := os.Getwd()
@@ -44,7 +45,7 @@ func New(path string, useGlobal bool) (*Organiser, error) {
 	return o, nil
 }
 
-// Run is the main worker function for organiser
+// Run re-organises the data directory provided according to user permission
 func (o *Organiser) Run() error {
 
 	info, err := os.Stat(o.Path)
