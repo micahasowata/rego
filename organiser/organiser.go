@@ -2,7 +2,6 @@ package organiser
 
 import (
 	"io/fs"
-	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -46,62 +45,71 @@ func New(path string, useGlobal bool) (*Organiser, error) {
 }
 
 // Run is the main worker function for organiser
-func (o *Organiser) Run() {
+func (o *Organiser) Run() error {
 	info, err := os.Stat(o.Path)
 	if err != nil {
-		log.Fatal(err)
+		e, _ := err.(*os.PathError)
+		return e.Err
 	}
 
 	if info.IsDir() {
 		// Check the file extensions
 		files, err := os.ReadDir(o.Path)
 		if err != nil {
-			log.Fatal(err)
+			return err
 		}
 
 		for _, file := range files {
 			if !file.IsDir() {
 				fileCategory, err := helper.GetFileCategory(filepath.Ext(file.Name()))
 				if err != nil {
-					log.Fatal(err)
+					return err
 				}
 
-				sourcePath := ""
+				sourcePath := filepath.Join(o.Path, file.Name())
 				destPath := ""
 
 				if !o.UseGlobal {
-					sourcePath = filepath.Join(o.Path, file.Name())
 					destPath = filepath.Join(o.Path, fileCategory, file.Name())
 					_, err = os.Stat(filepath.Join(o.Path, fileCategory))
 					if err != nil {
 						if os.IsNotExist(err) {
 							err = os.Mkdir(filepath.Join(o.Path, fileCategory), fs.ModePerm)
 							if err != nil {
-								log.Fatal(err)
+								e, _ := err.(*os.PathError)
+								return e.Err
 							}
 						}
 					}
 				} else {
 					hd, err := homedir.Dir()
 					if err != nil {
-						log.Fatal(err)
+						return err
 					}
-					sourcePath = filepath.Join(o.Path, file.Name())
 					destPath = filepath.Join(hd, fileCategory, file.Name())
 					_, err = os.Stat(filepath.Join(hd, fileCategory))
 					if err != nil {
 						if os.IsNotExist(err) {
 							err = os.Mkdir(filepath.Join(hd, fileCategory), fs.ModePerm)
 							if err != nil {
-								log.Fatal(err)
+								e, _ := err.(*os.PathError)
+								return e.Err
 							}
 						}
+
+						e, _ := err.(*os.PathError)
+						return e.Err
 					}
 				}
 
-				helper.MoveFile(sourcePath, destPath)
+				err = helper.MoveFile(sourcePath, destPath)
+				if err != nil {
+					e, _ := err.(*os.PathError)
+					return e.Err
+				}
 			}
 		}
 
 	}
+	return nil
 }
