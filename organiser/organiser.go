@@ -17,11 +17,11 @@ type Organiser struct {
 }
 
 // New is the constructor function for the organiser struct
-func New(path string, useGlobal bool) *Organiser {
+func New(path string, useGlobal bool) (*Organiser, error) {
 	if path == "." {
 		p, err := os.Getwd()
 		if err != nil {
-			log.Fatal(err.Error())
+			return nil, err
 		}
 		path = p
 	} else {
@@ -29,7 +29,7 @@ func New(path string, useGlobal bool) *Organiser {
 
 		hd, err := homedir.Dir()
 		if err != nil {
-			log.Fatal(err.Error())
+			return nil, err
 		}
 
 		if !strings.HasPrefix(path, hd) {
@@ -37,10 +37,12 @@ func New(path string, useGlobal bool) *Organiser {
 		}
 	}
 
-	return &Organiser{
+	o := &Organiser{
 		Path:      path,
 		UseGlobal: useGlobal,
 	}
+
+	return o, nil
 }
 
 // Run is the main worker function for organiser
