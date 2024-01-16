@@ -27,3 +27,15 @@ func TestExtensionMissingDot(t *testing.T) {
 	require.NoError(t, err)
 	assert.Equal(t, want, got, "add . and match file type")
 }
+
+func TestMissingExtension(t *testing.T) {
+	ext := ".img"
+	want := "not found"
+
+	got, err := helper.GetFileCategory(ext)
+
+	require.Error(t, err)
+	require.Contains(t, err.Error(), want)
+	assert.Empty(t, got)
+
+}
