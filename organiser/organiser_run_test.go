@@ -108,3 +108,20 @@ func TestInvalidFilePath(t *testing.T) {
 	require.Error(t, err)
 	require.Contains(t, err.Error(), "no such file or directory")
 }
+
+func TestUnreadableDirectory(t *testing.T) {
+	o, err := organiser.New(".", false)
+	require.NoError(t, err)
+
+	err = os.Mkdir("source", os.FileMode(0200))
+	require.NoError(t, err)
+
+	o.Path = filepath.Join(o.Path, "source")
+	require.DirExists(t, o.Path)
+
+	err = o.Run()
+	require.Error(t, err)
+
+	err = os.RemoveAll(o.Path)
+	require.NoError(t, err)
+}
