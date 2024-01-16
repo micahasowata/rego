@@ -2,6 +2,7 @@ package helper_test
 
 import (
 	"io/fs"
+	"log"
 	"os"
 	"path/filepath"
 	"testing"
@@ -15,18 +16,34 @@ var (
 
 func setUp() {
 	// create a source directory
-	source, _ = os.MkdirTemp("", "source")
+	source, err := os.MkdirTemp("", "source")
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	// create a sample file in that directory
 	file = filepath.Join(source, "sample.txt")
-	_ = os.WriteFile(file, []byte{1, 2}, fs.ModePerm)
-
+	err = os.WriteFile(file, []byte{1, 2}, fs.ModePerm)
+	if err != nil {
+		log.Fatal(err)
+	}
 	// create a stat directory
-	stat, _ = os.MkdirTemp("", "stat")
+	stat, err = os.MkdirTemp("", "stat")
+	log.Fatal(err)
 }
 
 func tearDown() {
 	// delete source directory
+	err := os.RemoveAll(source)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	// delete stat directory
+	err = os.RemoveAll(stat)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func TestMoveFile(t *testing.T) {
