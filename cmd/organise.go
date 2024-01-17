@@ -19,13 +19,9 @@ var organizeCmd = &cobra.Command{
 	Short: "Organise the files into folders",
 	Long: `Organise the files into folders based on their file type i.e extension e.g .jpg.
 	It would not re-arrange sub-directories and it might return an error if it encounters an unknown 
-	file type.
-	
-	Usage:
-	
-	rego o -p -g`,
-
-	Run: organise,
+	file type.`,
+	Example: "rego o -p -g",
+	Run:     organise,
 }
 
 func organise(cmd *cobra.Command, args []string) {
