@@ -1,8 +1,11 @@
+/*
+Copyright © 2024 NAME HERE <EMAIL ADDRESS>
+
+*/
 package main
 
-import "github.com/spobly/rego/organiser"
+import "github.com/spobly/rego/cmd"
 
 func main() {
-	o, _ := organiser.New("Documents/test", true)
-	o.Run()
+	cmd.Execute()
 }
