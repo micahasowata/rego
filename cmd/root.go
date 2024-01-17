@@ -11,6 +11,8 @@ var rootCmd = &cobra.Command{
 	Short: "Organize your files into easy to access folders",
 	Long: `rego makes it fast and easy to organize all your files in to folders 
 	that can be, if need be, quickly searched and makes your file system a lot neater.`,
+	Version:       "0.1.0",
+	SilenceErrors: true,
 }
 
 func Execute() {
