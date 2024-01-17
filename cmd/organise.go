@@ -7,6 +7,13 @@ import (
 	"github.com/spobly/rego/internal/organiser"
 )
 
+func init() {
+	rootCmd.AddCommand(organizeCmd)
+
+	organizeCmd.Flags().StringP("path", "p", "", "path to the folder to be organised e.g Documents/Test or if you want to organise the current folder just put .")
+	organizeCmd.Flags().BoolP("global", "g", false, "global determines if the new folders are created within the current folder or on the main home path")
+}
+
 var organizeCmd = &cobra.Command{
 	Use:   "o",
 	Short: "Organise the files into folders",
@@ -28,13 +35,13 @@ func organise(cmd *cobra.Command, args []string) {
 		return
 	}
 
-	useGlobal, err := cmd.Flags().GetBool("use-global")
+	global, err := cmd.Flags().GetBool("global")
 	if err != nil {
-		log.Println("use global permission couldn't be parsed")
+		log.Println("global permission couldn't be parsed")
 		return
 	}
 
-	o, err := organiser.New(path, useGlobal)
+	o, err := organiser.New(path, global)
 	if err != nil {
 		log.Println("organiser could not set up properly")
 		return
