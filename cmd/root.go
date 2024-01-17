@@ -8,13 +8,9 @@ import (
 
 var rootCmd = &cobra.Command{
 	Use:   "rego",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Organize your files into easy to access folders",
+	Long: `rego makes it fast and easy to organize all your files in to folders 
+	that can be, if need be, quickly searched and makes your file system a lot neater.`,
 }
 
 func Execute() {
