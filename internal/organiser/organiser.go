@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/mitchellh/go-homedir"
-	"github.com/spobly/rego/helper"
+	"github.com/spobly/rego/internal/helper"
 )
 
 // Organiser stores information about the directory to be managed and user permissions

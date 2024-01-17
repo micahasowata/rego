@@ -8,7 +8,7 @@ import (
 	"testing"
 
 	"github.com/mitchellh/go-homedir"
-	"github.com/spobly/rego/organiser"
+	"github.com/spobly/rego/internal/organiser"
 	"github.com/stretchr/testify/require"
 )
 

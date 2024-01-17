@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/spobly/rego/helper"
+	"github.com/spobly/rego/internal/helper"
 	"github.com/stretchr/testify/assert"
 )
 
